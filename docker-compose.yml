@@ -1,0 +1,185 @@
+services:
+  # --- API Gateway ---
+  api-gateway:
+    build:
+      context: ./api-gateway
+    image: api-gateway:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      dish-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend
+
+  # --- Services ---
+  auth-service:
+    build:
+      context: ./auth-service
+    image: auth-service:latest
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT-Development}
+      - ConnectionStrings__DefaultConnection=Host=auth-service-db;Port=5432;Database=${AUTH_DB_NAME};Username=${AUTH_DB_USER};Password=${AUTH_DB_PASSWORD}
+      - ConnectionStrings__Redis=auth-service-redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000
+      - SWAGGER_BASEPATH=/auth
+      - Jwt__Key=${JWT_KEY}
+    depends_on:
+      auth-service-db:
+        condition: service_healthy
+      auth-service-redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- --timeout=2 http://127.0.0.1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  dish-service:
+    build:
+      context: ./dish-service
+    image: dish-service:latest
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT-Development}
+      - ConnectionStrings__DefaultConnection=Host=dish-service-db;Port=5432;Database=${DISH_DB_NAME};Username=${DISH_DB_USER};Password=${DISH_DB_PASSWORD}
+      - ConnectionStrings__Redis=dish-service-redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000
+      - SWAGGER_BASEPATH=/dishes
+    depends_on:
+      dish-service-db:
+        condition: service_healthy
+      dish-service-redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- --timeout=2 http://127.0.0.1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  order-service:
+    build:
+      context: ./order-service
+    image: order-service:latest
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT-Development}
+      - ConnectionStrings__DefaultConnection=Host=order-service-db;Port=5432;Database=${ORDER_DB_NAME};Username=${ORDER_DB_USER};Password=${ORDER_DB_PASSWORD}
+      - ConnectionStrings__Redis=order-service-redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000
+      - SWAGGER_BASEPATH=/orders
+    depends_on:
+      order-service-db:
+        condition: service_healthy
+      order-service-redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- --timeout=2 http://127.0.0.1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # --- Databases ---
+  auth-service-db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+      POSTGRES_DB: ${AUTH_DB_NAME}
+    volumes:
+      - auth-service-db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${AUTH_DB_USER} -d ${AUTH_DB_NAME} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+
+  dish-service-db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${DISH_DB_USER}
+      POSTGRES_PASSWORD: ${DISH_DB_PASSWORD}
+      POSTGRES_DB: ${DISH_DB_NAME}
+    volumes:
+      - dish-service-db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DISH_DB_USER} -d ${DISH_DB_NAME} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+
+  order-service-db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${ORDER_DB_USER}
+      POSTGRES_PASSWORD: ${ORDER_DB_PASSWORD}
+      POSTGRES_DB: ${ORDER_DB_NAME}
+    volumes:
+      - order-service-db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${ORDER_DB_USER} -d ${ORDER_DB_NAME} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+
+  # --- Cache ---
+  dish-service-redis:
+    image: redis:8.4-alpine
+    volumes:
+      - dish-service-redis-data:/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  order-service-redis:
+    image: redis:8.4-alpine
+    volumes:
+      - order-service-redis-data:/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  auth-service-db-data:
+  dish-service-db-data:
+  order-service-db-data:
+  dish-service-redis-data:
+  order-service-redis-data:
