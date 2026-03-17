@@ -1,0 +1,77 @@
+# .NET / Dotnet
+[Dd]ebug/
+[DebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core / NuGet
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nupkg
+*.snupkg
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# dotenv
+.env
+.env.local
+.env.development
+.env.production
+
+# Others
+~$*
+*~
+CodeCoverage/
+*.binlog
+
+# Tests
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+*.trx
+coverage.xml
+coverletCoverage.json
+
+# Publish outputs
+[Pp]ublish/
+publish/
+
+docker-compose.override.yml
+*.dockerignore
+Dockerfile.*
+*.dockerfile
+**/Dockerfile*
+**/.docker/
+**/volumes/
+**/data/
+**/*.log.json
+
+# IDE / Editor
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+[Dd]ebug.user
+[Rr]elease.user
+
+**/node_modules/
+**/__pycache__/
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
