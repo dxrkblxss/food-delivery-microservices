@@ -77,6 +77,7 @@ services:
       - ConnectionStrings__DefaultConnection=Host=order-service-db;Port=5432;Database=${ORDER_DB_NAME};Username=${ORDER_DB_USER};Password=${ORDER_DB_PASSWORD}
       - ConnectionStrings__Redis=order-service-redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000
       - SWAGGER_BASEPATH=/orders
+      - Jwt__Key=${JWT_KEY}
     depends_on:
       order-service-db:
         condition: service_healthy
