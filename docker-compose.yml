@@ -32,8 +32,6 @@ services:
     depends_on:
       auth-service-db:
         condition: service_healthy
-      auth-service-redis:
-        condition: service_healthy
     restart: unless-stopped
     networks:
       - backend
