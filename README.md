@@ -151,13 +151,17 @@ docker compose down -v
 
 ## 🔎 API Discovery & Documentation
 
-Once the stack is running, you can explore and test the APIs using **Swagger UI**. 
+The project uses **Swagger UI** for easy API exploration and testing. Thanks to the Gateway's aggregation, you can view all service definitions in one place.
 
-* **Gateway Entrypoint:** `http://localhost:8080`
-* **Service Documentation:** Each microservice provides its own OpenAPI/Swagger definition. To access them through the gateway, use the following routes:
-  * **Auth Service:** `http://localhost:8080/auth/swagger`
-  * **Dish Service:** `http://localhost:8080/dishes/swagger`
-  * **Order Service:** `http://localhost:8080/orders/swagger`
+* **🚀 Centralized Swagger UI:** `http://localhost:8080/gateway-docs` 
+  *(Use the definition selector in the top right to switch between Auth, Dishes, and Orders)*
+
+* **Gateway Base URL:** `http://localhost:8080`
+
+If you need to access individual service documentation directly through the gateway:
+* 🔐 **Auth Service:** `http://localhost:8080/auth/swagger`
+* 🥘 **Dish Service:** `http://localhost:8080/dishes/swagger`
+* 🛒 **Order Service:** `http://localhost:8080/orders/swagger`
 
 > [!TIP]
 > Swagger is enabled by default in `Development` environment. If you change `ASPNETCORE_ENVIRONMENT` to `Production` in your `.env`, Swagger UI might be disabled depending on your service configuration.
