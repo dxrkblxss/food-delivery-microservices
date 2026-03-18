@@ -1,12 +1,16 @@
 [submodule "auth-service"]
 	path = auth-service
 	url = https://github.com/dxrkblxss/auth-service.git
+	branch = main
 [submodule "api-gateway"]
 	path = api-gateway
 	url = https://github.com/dxrkblxss/api-gateway.git
+	branch = main
 [submodule "order-service"]
 	path = order-service
 	url = https://github.com/dxrkblxss/order-service.git
+	branch = main
 [submodule "dish-service"]
 	path = dish-service
 	url = https://github.com/dxrkblxss/dish-service.git
+	branch = main
