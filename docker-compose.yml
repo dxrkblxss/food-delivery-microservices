@@ -32,6 +32,8 @@ services:
     depends_on:
       auth-service-db:
         condition: service_healthy
+      auth-service-redis:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - backend
@@ -96,6 +98,8 @@ services:
   # --- Databases ---
   auth-service-db:
     image: postgres:18-alpine
+    ports:
+      - "5433:5432"
     environment:
       POSTGRES_USER: ${AUTH_DB_USER}
       POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
@@ -113,6 +117,8 @@ services:
 
   dish-service-db:
     image: postgres:18-alpine
+    ports:
+      - "5434:5432"
     environment:
       POSTGRES_USER: ${DISH_DB_USER}
       POSTGRES_PASSWORD: ${DISH_DB_PASSWORD}
@@ -130,6 +136,8 @@ services:
 
   order-service-db:
     image: postgres:18-alpine
+    ports:
+      - "5435:5432"
     environment:
       POSTGRES_USER: ${ORDER_DB_USER}
       POSTGRES_PASSWORD: ${ORDER_DB_PASSWORD}
@@ -146,8 +154,25 @@ services:
       start_period: 10s
 
   # --- Cache ---
+  auth-service-redis:
+    image: redis:8.4-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - auth-service-redis-data:/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
   dish-service-redis:
     image: redis:8.4-alpine
+    ports:
+      - "6380:6379"
     volumes:
       - dish-service-redis-data:/data
     networks:
@@ -161,6 +186,8 @@ services:
 
   order-service-redis:
     image: redis:8.4-alpine
+    ports:
+      - "6381:6379"
     volumes:
       - order-service-redis-data:/data
     networks:
@@ -180,5 +207,6 @@ volumes:
   auth-service-db-data:
   dish-service-db-data:
   order-service-db-data:
+  auth-service-redis-data:
   dish-service-redis-data:
   order-service-redis-data:
