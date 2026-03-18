@@ -77,7 +77,12 @@ git clone --recursive https://github.com/dxrkblxss/food-delivery-microservices.g
 # 2. Go to project directory
 cd food-delivery-microservices
 
-# 3. Spin up the entire infrastructure
+# 3. Configure environment variables (required before start):
+cp .env.example .env
+# No changes needed for a quick test, 
+# but recommended to edit for production.
+
+# 4. Spin up the entire infrastructure
 docker-compose up -d --build
 ```
 
@@ -89,7 +94,7 @@ docker-compose up -d --build
 
 ## ⚙️ Configuration
 
-Copy the example env file and edit secrets before starting:
+Copy the example env file and edit secrets:
 
 ```bash
 cp .env.example .env
