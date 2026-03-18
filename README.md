@@ -1,10 +1,11 @@
 # 🍽️ Food Delivery Microservices
 
-![.NET 8](https://img.shields.io/badge/.NET_8-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![YARP](https://img.shields.io/badge/YARP-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+[![.NET 9](https://img.shields.io/badge/.NET_9-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![YARP](https://img.shields.io/badge/YARP-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://microsoft.github.io/reverse-proxy/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+[![MIT License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 A small collection of **.NET microservices** (Auth, Dishes, Orders) wired together behind a simple API Gateway and orchestrated with **Docker Compose**. Each service uses **PostgreSQL** for persistence and **Redis** for caching. The project is split into submodules so each service can be developed independently.
 
@@ -230,7 +231,5 @@ docker compose up -d --build
 ---
 
 ## 📄 License
-
-![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
 
 This project is released under the MIT License. See `LICENSE` for details.
