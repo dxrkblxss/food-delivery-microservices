@@ -149,12 +149,18 @@ docker compose down -v
 
 ---
 
-## 🔎 Health & APIs
+## 🔎 API Discovery & Documentation
 
-* API Gateway (routes requests to services): `http://localhost:8080/`
-* Each service exposes a health endpoint (used by Compose): `http://<service>:80/health` inside the network. From the host you can also reach the service via the gateway paths.
+Once the stack is running, you can explore and test the APIs using **Swagger UI**. 
 
-Swagger/OpenAPI is configured per-service via an environment variable (`SWAGGER_BASEPATH`) — check individual service folders for available endpoints and examples.
+* **Gateway Entrypoint:** `http://localhost:8080`
+* **Service Documentation:** Each microservice provides its own OpenAPI/Swagger definition. To access them through the gateway, use the following routes:
+  * **Auth Service:** `http://localhost:8080/auth/swagger`
+  * **Dish Service:** `http://localhost:8080/dishes/swagger`
+  * **Order Service:** `http://localhost:8080/orders/swagger`
+
+> [!TIP]
+> Swagger is enabled by default in `Development` environment. If you change `ASPNETCORE_ENVIRONMENT` to `Production` in your `.env`, Swagger UI might be disabled depending on your service configuration.
 
 ---
 
