@@ -5,6 +5,7 @@
 [![YARP](https://img.shields.io/badge/YARP-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://microsoft.github.io/reverse-proxy/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge\&logo=jsonwebtokens\&logoColor=white)](https://jwt.io/)
 [![MIT License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 A small collection of **.NET microservices** (Auth, Dishes, Orders) wired together behind a simple API Gateway and orchestrated with **Docker Compose**. All services use **PostgreSQL** for persistence, and the Dish/Order services use **Redis** for caching. The project is split into submodules so each service can be developed independently.
@@ -64,6 +65,7 @@ Each service exposes a small HTTP API and a `/health` endpoint used by Docker Co
 * Docker 20.10+
 * Docker Compose v2+
 * (Optional) .NET 9 SDK for local development
+* (Optional) Git
 
 > **Note:** You do not need the .NET SDK to run the whole stack if you use Docker Compose. The services run as container images built from each submodule.
 
