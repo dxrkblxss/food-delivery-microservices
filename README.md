@@ -61,9 +61,9 @@ Each service exposes a small HTTP API and a `/health` endpoint used by Docker Co
 
 ## 🛠 Prerequisites
 
-* Docker (20.10+ recommended)
-* Docker Compose v2 (or `docker compose` plugin)
-* (Optional) Git (to clone with submodules)
+* Docker 20.10+
+* Docker Compose v2+
+* (Optional) .NET 9 SDK for local development
 
 > **Note:** You do not need the .NET SDK to run the whole stack if you use Docker Compose. The services run as container images built from each submodule.
 
