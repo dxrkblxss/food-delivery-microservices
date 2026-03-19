@@ -7,7 +7,7 @@
 [![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
 [![MIT License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-A small collection of **.NET microservices** (Auth, Dishes, Orders) wired together behind a simple API Gateway and orchestrated with **Docker Compose**. Each service uses **PostgreSQL** for persistence and **Redis** for caching. The project is split into submodules so each service can be developed independently.
+A small collection of **.NET microservices** (Auth, Dishes, Orders) wired together behind a simple API Gateway and orchestrated with **Docker Compose**. All services use **PostgreSQL** for persistence, and the Dish/Order services use **Redis** for caching. The project is split into submodules so each service can be developed independently.
 
 ---
 
@@ -140,7 +140,7 @@ Or run in detached mode:
 docker compose up -d --build
 ```
 
-Compose will create the required Postgres and Redis containers and expose the API Gateway on port **8080** (host -> container mapping `8080:80`).
+Compose will create the required Postgres containers and the Redis caches used by Dish/Order services, then expose the API Gateway on port **8080** (host -> container mapping `8080:80`).
 
 To stop and remove containers, networks and volumes created by Compose:
 
@@ -191,7 +191,7 @@ docker build -t auth-service:dev .
 ```
 
 > [!TIP]
-> When running containers manually, make sure they can access the other containers (Postgres/Redis) by joining the same Docker network.
+> When running containers manually, make sure they can access the other containers they need on the same Docker network.
 > Usually, it's:
 > ```bash
 > docker run --network food-delivery-microservices_default ...

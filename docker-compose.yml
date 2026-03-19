@@ -26,13 +26,10 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT-Development}
       - ConnectionStrings__DefaultConnection=Host=auth-service-db;Port=5432;Database=${AUTH_DB_NAME};Username=${AUTH_DB_USER};Password=${AUTH_DB_PASSWORD}
-      - ConnectionStrings__Redis=auth-service-redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000
       - SWAGGER_BASEPATH=/auth
       - Jwt__Key=${JWT_KEY}
     depends_on:
       auth-service-db:
-        condition: service_healthy
-      auth-service-redis:
         condition: service_healthy
     restart: unless-stopped
     networks:
@@ -154,21 +151,6 @@ services:
       start_period: 10s
 
   # --- Cache ---
-  auth-service-redis:
-    image: redis:8.4-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - auth-service-redis-data:/data
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-
   dish-service-redis:
     image: redis:8.4-alpine
     ports:
@@ -207,6 +189,5 @@ volumes:
   auth-service-db-data:
   dish-service-db-data:
   order-service-db-data:
-  auth-service-redis-data:
   dish-service-redis-data:
   order-service-redis-data:
