@@ -194,9 +194,9 @@ docker build -t auth-service:dev .
 
 > [!TIP]
 > When running containers manually, make sure they can access the other containers they need on the same Docker network.
-> Usually, it's:
+> In this project the Compose network is `backend`, so Docker Compose typically creates a network named:
 > ```bash
-> docker run --network food-delivery-microservices_default ...
+> docker run --network food-delivery-microservices_backend ...
 > ```
 
 ---
