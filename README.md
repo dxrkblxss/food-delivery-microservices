@@ -8,7 +8,7 @@
 [![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge\&logo=jsonwebtokens\&logoColor=white)](https://jwt.io/)
 [![MIT License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-A small collection of **.NET microservices** (Auth, Dishes, Orders) wired together behind a simple API Gateway and orchestrated with **Docker Compose**. All services use **PostgreSQL** for persistence, and the Dish/Order services use **Redis** for caching. The project is split into submodules so each service can be developed independently.
+A small collection of **.NET microservices** (Auth, Dishes, Orders) wired together behind a simple API Gateway and orchestrated with **Docker Compose**. All services use **PostgreSQL** for persistence, and the Dish/Order services use **Redis** for caching. The repository is split into Git submodules so each service can be developed independently.
 
 ---
 
@@ -19,7 +19,7 @@ A small collection of **.NET microservices** (Auth, Dishes, Orders) wired togeth
 * Docker Compose orchestration (databases, caches, volumes, networks)
 * Healthchecks for service readiness
 * Environment-driven configuration (single `.env` example included)
-* Ready-for-local testing with Compose and containerized DBs
+* Ready-for-local testing with Compose and containerized dependencies
 
 ---
 
@@ -86,7 +86,7 @@ cp .env.example .env
 # but recommended to edit for production.
 
 # 4. Spin up the entire infrastructure
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 > [!IMPORTANT]
@@ -111,7 +111,7 @@ cp .env.example .env
 **Auth service**
 
 * `AUTH_DB_NAME`, `AUTH_DB_USER`, `AUTH_DB_PASSWORD`
-* `JWT_KEY` (must be at least ~32 chars for HMAC signing)
+* `JWT_KEY` (should be at least 32 characters for HMAC signing)
 
 **Dish service**
 
@@ -156,7 +156,7 @@ docker compose down -v
 
 The project uses **Swagger UI** for easy API exploration and testing. Thanks to the Gateway's aggregation, you can view all service definitions in one place.
 
-* **🚀 Centralized Swagger UI:** `http://localhost:8080/gateway-docs` 
+* **🚀 Centralized Swagger UI:** `http://localhost:8080/gateway-docs`
   *(Use the definition selector in the top right to switch between Auth, Dishes, and Orders)*
 
 * **Gateway Base URL:** `http://localhost:8080`
@@ -167,7 +167,7 @@ If you need to access individual service documentation directly through the gate
 * 🛒 **Order Service:** `http://localhost:8080/orders/swagger`
 
 > [!TIP]
-> Swagger is enabled by default in `Development` environment. If you change `ASPNETCORE_ENVIRONMENT` to `Production` in your `.env`, Swagger UI might be disabled depending on your service configuration.
+> In the current project configuration, Swagger UI is exposed by the gateway and by each service directly.
 
 ---
 
