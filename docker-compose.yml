@@ -75,6 +75,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT-Development}
       - ConnectionStrings__DefaultConnection=Host=order-service-db;Port=5432;Database=${ORDER_DB_NAME};Username=${ORDER_DB_USER};Password=${ORDER_DB_PASSWORD}
       - ConnectionStrings__Redis=order-service-redis:6379,abortConnect=false,connectRetry=5,connectTimeout=5000
+      - Services__DishServiceBaseUrl=http://dish-service:80
       - SWAGGER_BASEPATH=/orders
       - Jwt__Key=${JWT_KEY}
     depends_on:
@@ -94,7 +95,7 @@ services:
 
   # --- Databases ---
   auth-service-db:
-    image: postgres:18-alpine
+    image: postgres:17-alpine
     ports:
       - "5433:5432"
     environment:
@@ -113,7 +114,7 @@ services:
       start_period: 10s
 
   dish-service-db:
-    image: postgres:18-alpine
+    image: postgres:17-alpine
     ports:
       - "5434:5432"
     environment:
@@ -132,7 +133,7 @@ services:
       start_period: 10s
 
   order-service-db:
-    image: postgres:18-alpine
+    image: postgres:17-alpine
     ports:
       - "5435:5432"
     environment:
